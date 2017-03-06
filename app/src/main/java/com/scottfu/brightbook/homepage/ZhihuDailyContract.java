@@ -1,6 +1,5 @@
 package com.scottfu.brightbook.homepage;
 
-import com.google.common.reflect.Parameter;
 import com.scottfu.brightbook.bean.ZhihuDailyNews;
 import com.scottfu.sflibrary.mvp.BasePresenter;
 import com.scottfu.sflibrary.mvp.BaseView;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 
 public interface ZhihuDailyContract {
 
-    interface View extends BaseView<Parameter> {
+    interface View extends BaseView<Presenter> {
         void showError();
 
         void showLoading();
