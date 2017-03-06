@@ -26,12 +26,26 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    //appcompat 兼容包
     compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    //cardview 控件
     compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    //material design 设计包
     compile "com.android.support:design:$rootProject.supportLibraryVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+    // google core libraries for java
     compile "com.google.guava:guava:$rootProject.guavaVersion"
+    compile "com.android.support:preference-v14:$rootProject.supportLibraryVersion"
+    // 支持Chrome Custom Tabs
+    compile "com.android.support:customtabs:$rootProject.supportLibraryVersion"
+    // 解析JSON数据
+    compile "com.google.code.gson:gson:$rootProject.gsonVersion"
+    // 图片加载
+    compile "com.github.bumptech.glide:glide:$rootProject.glideVersion"
+    // 为了保持在低版本SDK中的UI一致性，引入material data time picker库
+    compile "com.wdullaer:materialdatetimepicker:$rootProject.materialDateTimePickerVersion"
 
+    compile 'com.android.volley:volley:1.0.0'
     testCompile "junit:junit:$rootProject.junitVersion"
 }
