@@ -27,7 +27,7 @@ public interface ZhihuDailyContract {
 
         void refresh();
 
-        void loadMore();
+        void loadMore(long date);
 
         void startReading(int Position);
 
