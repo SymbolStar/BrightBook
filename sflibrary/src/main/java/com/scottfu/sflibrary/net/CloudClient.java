@@ -3,9 +3,13 @@ package com.scottfu.sflibrary.net;
 import android.content.Context;
 
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONObject;
 
 /**
  * Created by fujindong on 2017/3/6.
@@ -13,11 +17,7 @@ import com.android.volley.toolbox.StringRequest;
  */
 
 public class CloudClient {
-    private Context context;
-    public CloudClient(Context context){
-        this.context = context;
-    }
-    public void doHttpRequest(String url, final JSONResultHandler jsonResultHandler){
+    public static void doHttpRequest(Context context, String url, final JSONResultHandler jsonResultHandler){
         StringRequest request = new StringRequest(url, new Response.Listener<String>(){
 
             @Override
@@ -31,6 +31,24 @@ public class CloudClient {
             }
         });
 
+        request.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getVolleySingleton(context).addToRequestQueue(request);
+    }
+
+
+    public static void doHttpRequestV2(Context context, String url, final JSONObject jsonObject, final JSONResultHandler jsonResultHandler) {
+        String sss = jsonObject.toString();
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                    jsonResultHandler.onSuccess(response.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                jsonResultHandler.onError(error);
+            }
+        });
         request.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getVolleySingleton(context).addToRequestQueue(request);
     }
