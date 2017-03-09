@@ -21,8 +21,10 @@ import com.android.volley.VolleyError;
 import com.google.common.collect.HashBiMap;
 import com.scottfu.sflibrary.net.CloudClient;
 import com.scottfu.sflibrary.net.JSONResultHandler;
+import com.scottfu.sflibrary.util.StringUtil;
 import com.scottfu.sflibrary.util.ToastManager;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
 //            showMainFragment();
             ToastManager.showToast(this,"主页");
-            getDataV2();
+            getDataV3();
         } else if (id == R.id.nav_bookmarks) {
 //            showBookmarksFragment();
             ToastManager.showToast(this,"收藏");
@@ -164,11 +166,83 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void getDataV2() {
         String url = "https://www.iyxt.com.cn/API/GetStationList.aspx";
-        HashMap<String, String> map = new HashMap<>();
+//        HashMap<String, Object> map = new HashMap<>();
+//        map.put("DeviceId", "Android");
+//        map.put("Key", "83b1b558b2b37934010f33b56e22f239");
+//
+//        JSONObject oo = new JSONObject(map);
+//        String json = StringUtil.hashMapToJson(map);
+//
+//        net.sf.json.JSONObject jsono = net.sf.json.JSONObject.fromObject(json);
+//
+//        HashMap<String, Object> mm = new HashMap<>();
+//
+////        json = json.replace("\\","");
+//
+//
+//        mm.put("arg",json);
+//
+//        String jason = StringUtil.hashMapToJson(mm);
+//        jason = jason.replace("\\","");
+//
+//        JSONObject nn =new JSONObject();
+//        try {
+//            nn.put("arg",json);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+////        try {
+////             nn = new JSONObject(jason);
+////        } catch (JSONException e) {
+////            e.printStackTrace();
+////        }
+//
+//        JSONObject jj ;
+//            jj = new JSONObject(mm);
+//
+////        net.sf.json.JSONObject n = net.sf.json.JSONObject.fromObject(jason);
+
+
+        String content = "{\"DeviceId\":\"Android\",\"Key\":\"83b1b558b2b37934010f33b56e22f239\"}";
+
+
+
+        try {
+            JSONObject jsonObject = new JSONObject(content);
+
+            JSONObject jj = new JSONObject();
+            jj.put("arg", jsonObject);
+            CloudClient.doHttpRequestV2(MainActivity.this, url,jj, new JSONResultHandler() {
+                @Override
+                public void onSuccess(String jsonString) {
+                    ToastManager.showToast(MainActivity.this, jsonString);
+                }
+
+                @Override
+                public void onError(VolleyError errorMessage) {
+                    ToastManager.showToast(MainActivity.this,"出错了");
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+
+    private void getDataV3() {
+        String url = "https://www.iyxt.com.cn/API/GetStationList.aspx";
+        HashMap<String, Object> map = new HashMap<>();
         map.put("DeviceId", "Android");
         map.put("Key", "83b1b558b2b37934010f33b56e22f239");
-        JSONObject js = new JSONObject(map);
-        CloudClient.doHttpRequestV2(MainActivity.this, url, js, new JSONResultHandler() {
+
+        String json = StringUtil.hashMapToJson(map);
+        HashMap<String, String> arg = new HashMap<>();
+        arg.put("arg", json);
+
+        CloudClient.doHttpRequestv3(arg, MainActivity.this, url, new JSONResultHandler() {
             @Override
             public void onSuccess(String jsonString) {
                 ToastManager.showToast(MainActivity.this, jsonString);
@@ -179,6 +253,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ToastManager.showToast(MainActivity.this,"出错了");
             }
         });
+
     }
 
 }
