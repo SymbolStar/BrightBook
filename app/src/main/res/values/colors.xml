@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#80DEEA</color>
     <color name="colorAccent">#FF4081</color>
     <color name="navgationColor">#00BCD4</color>
+    <color name="viewBackground">@android:color/white</color>
 </resources>

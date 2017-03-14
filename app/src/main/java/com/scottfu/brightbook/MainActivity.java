@@ -147,6 +147,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+
+
+
+
+
+
+
+
+
     private void getData() {
 
         CloudClient.doHttpRequest(MainActivity.this, "http://news-at.zhihu.com/api/4/news/before/20170122", new JSONResultHandler() {
@@ -164,75 +173,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void getDataV2() {
-        String url = "https://www.iyxt.com.cn/API/GetStationList.aspx";
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("DeviceId", "Android");
-//        map.put("Key", "83b1b558b2b37934010f33b56e22f239");
-//
-//        JSONObject oo = new JSONObject(map);
-//        String json = StringUtil.hashMapToJson(map);
-//
-//        net.sf.json.JSONObject jsono = net.sf.json.JSONObject.fromObject(json);
-//
-//        HashMap<String, Object> mm = new HashMap<>();
-//
-////        json = json.replace("\\","");
-//
-//
-//        mm.put("arg",json);
-//
-//        String jason = StringUtil.hashMapToJson(mm);
-//        jason = jason.replace("\\","");
-//
-//        JSONObject nn =new JSONObject();
-//        try {
-//            nn.put("arg",json);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-////        try {
-////             nn = new JSONObject(jason);
-////        } catch (JSONException e) {
-////            e.printStackTrace();
-////        }
-//
-//        JSONObject jj ;
-//            jj = new JSONObject(mm);
-//
-////        net.sf.json.JSONObject n = net.sf.json.JSONObject.fromObject(jason);
 
-
-        String content = "{\"DeviceId\":\"Android\",\"Key\":\"83b1b558b2b37934010f33b56e22f239\"}";
-
-
-
-        try {
-            JSONObject jsonObject = new JSONObject(content);
-
-            JSONObject jj = new JSONObject();
-            jj.put("arg", jsonObject);
-            CloudClient.doHttpRequestV2(MainActivity.this, url,jj, new JSONResultHandler() {
-                @Override
-                public void onSuccess(String jsonString) {
-                    ToastManager.showToast(MainActivity.this, jsonString);
-                }
-
-                @Override
-                public void onError(VolleyError errorMessage) {
-                    ToastManager.showToast(MainActivity.this,"出错了");
-                }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-
-    }
 
 
     private void getDataV3() {
+        //云校通站点获取
         String url = "https://www.iyxt.com.cn/API/GetStationList.aspx";
         HashMap<String, Object> map = new HashMap<>();
         map.put("DeviceId", "Android");
