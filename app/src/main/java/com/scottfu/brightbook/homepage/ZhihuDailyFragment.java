@@ -142,7 +142,7 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
                 } else if (tabLayout.getSelectedTabPosition() == 2) {
 //                    豆瓣
 //                    ViewPager p = (ViewPager) getActivity().findViewById(R.id.view_pager);
-//                    MainPagerAdapter ad = (MainPagerAdapter) p.getAdapter();
+//                    MainPagerAdapter ad = (MainPagerAdapter) p.getmPageAdapter();
 //                    ad.getDoubanFragment().showPickDialog();
                 }
             }
