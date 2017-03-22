@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
@@ -180,6 +181,7 @@ public class DoubanPresenter implements DoubanContract.Presenter {
         if (cursor.moveToFirst()){
             do {
                 if (id == cursor.getInt(cursor.getColumnIndex("douban_id"))){
+                    Log.e("DoubanPresenter", "---------douban_id--------"+String.valueOf(id));
                     return true;
                 }
             } while (cursor.moveToNext());

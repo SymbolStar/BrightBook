@@ -55,78 +55,78 @@ public class ZhihuDailyPresenter implements ZhihuDailyContract.Presenter {
 
     @Override
     public void loadPosts(long date, final boolean clearing) {
-//
-//        if (clearing) {
-//            mView.showLoading();
-//        }
-//        if (NetworkState.networkConnected(mContext)) {
-//            mCloudClient.doHttpRequest(BrightBookAPI.ZHIHU_HISTORY + formatter.ZhihuDailyDateFormat(date), new JSONResultHandler() {
-//                @Override
-//                public void onSuccess(String jsonString) {
-//                    try {
-//                        ZhihuDailyNews zhihuDailyNews = gson.fromJson(jsonString, ZhihuDailyNews.class);
-//                        ContentValues values = new ContentValues();
-//                        if (clearing) {
-//                            mZhihuStoryList.clear();
-//                        }
-//                        for (ZhihuDailyNews.Story item :
-//                                zhihuDailyNews.getStories()) {
-//                            mZhihuStoryList.add(item);
-//                            if (!queryIfIDExists(item.getId())) {
-//                                mdb.beginTransaction();
-//                                try {
-//                                    DateFormat format = new SimpleDateFormat("yyyyMMdd");
-//                                    Date date = format.parse(zhihuDailyNews.getDate());
-//                                    values.put("zhihu_id", item.getId());
-//                                    values.put("zhihu_news", gson.toJson(item));
-//                                    values.put("zhihu_content", "");
-//                                    values.put("zhihu_time", date.getTime() / 1000);
-//                                    mdb.insert("Zhihu", null, values);
-//                                    mdb.setTransactionSuccessful();
-//                                    values.clear();
-//
-//                                } catch (Exception e) {
-//                                    e.printStackTrace();
-//                                } finally {
-//                                    mdb.endTransaction();
-//                                }
-//                            }
-//
-////                        TODO Local_broadcast
-//
-//                        }
-//                        mView.showResults(mZhihuStoryList);
-//                    } catch (JsonSyntaxException e) {
-//                        mView.showError();
-//                    }
-//                    mView.stopLoading();
-//                }
-//
-//                @Override
-//                public void onError(VolleyError errorMessage) {
-//                    mView.stopLoading();
-//                    mView.showError();
-//                }
-//            });
-//        } else {
-//            if (clearing) {
-//                mZhihuStoryList.clear();
-//                Cursor cursor = mdb.query("Zhihu", null, null, null, null, null, null);
-//                if (cursor.moveToFirst()) {
-//                    do {
-//                        ZhihuDailyNews.Story story = gson.fromJson(cursor.getString(cursor.getColumnIndex("zhihu_news")), ZhihuDailyNews.Story.class);
-//                        mZhihuStoryList.add(story);
-//
-//                    } while (cursor.moveToNext());
-//                }
-//                cursor.close();
-//                mView.stopLoading();
-//                mView.showResults(mZhihuStoryList);
-//            } else {
-//                mView.showError();
-//            }
-//
-//        }
+
+        if (clearing) {
+            mView.showLoading();
+        }
+        if (NetworkState.networkConnected(mContext)) {
+            CloudClient.doHttpRequest(mContext,BrightBookAPI.ZHIHU_HISTORY + formatter.ZhihuDailyDateFormat(date), new JSONResultHandler() {
+                @Override
+                public void onSuccess(String jsonString) {
+                    try {
+                        ZhihuDailyNews zhihuDailyNews = gson.fromJson(jsonString, ZhihuDailyNews.class);
+                        ContentValues values = new ContentValues();
+                        if (clearing) {
+                            mZhihuStoryList.clear();
+                        }
+                        for (ZhihuDailyNews.Story item :
+                                zhihuDailyNews.getStories()) {
+                            mZhihuStoryList.add(item);
+                            if (!queryIfIDExists(item.getId())) {
+                                mdb.beginTransaction();
+                                try {
+                                    DateFormat format = new SimpleDateFormat("yyyyMMdd");
+                                    Date date = format.parse(zhihuDailyNews.getDate());
+                                    values.put("zhihu_id", item.getId());
+                                    values.put("zhihu_news", gson.toJson(item));
+                                    values.put("zhihu_content", "");
+                                    values.put("zhihu_time", date.getTime() / 1000);
+                                    mdb.insert("Zhihu", null, values);
+                                    mdb.setTransactionSuccessful();
+                                    values.clear();
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                } finally {
+                                    mdb.endTransaction();
+                                }
+                            }
+
+//                        TODO Local_broadcast
+
+                        }
+                        mView.showResults(mZhihuStoryList);
+                    } catch (JsonSyntaxException e) {
+                        mView.showError();
+                    }
+                    mView.stopLoading();
+                }
+
+                @Override
+                public void onError(VolleyError errorMessage) {
+                    mView.stopLoading();
+                    mView.showError();
+                }
+            });
+        } else {
+            if (clearing) {
+                mZhihuStoryList.clear();
+                Cursor cursor = mdb.query("Zhihu", null, null, null, null, null, null);
+                if (cursor.moveToFirst()) {
+                    do {
+                        ZhihuDailyNews.Story story = gson.fromJson(cursor.getString(cursor.getColumnIndex("zhihu_news")), ZhihuDailyNews.Story.class);
+                        mZhihuStoryList.add(story);
+
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
+                mView.stopLoading();
+                mView.showResults(mZhihuStoryList);
+            } else {
+                mView.showError();
+            }
+
+        }
 
 
     }

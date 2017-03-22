@@ -139,11 +139,10 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
                     dialog.vibrate(false);
 
                     dialog.show(getActivity().getFragmentManager(), "DatePickerDialog");
-                } else if (tabLayout.getSelectedTabPosition() == 2) {
-//                    豆瓣
-//                    ViewPager p = (ViewPager) getActivity().findViewById(R.id.view_pager);
-//                    MainPagerAdapter ad = (MainPagerAdapter) p.getmPageAdapter();
-//                    ad.getDoubanFragment().showPickDialog();
+                } else if (tabLayout.getSelectedTabPosition() == 1) {
+                    ViewPager p = (ViewPager) getActivity().findViewById(R.id.view_pager);
+                    MainPagerAdapter ad = (MainPagerAdapter) p.getAdapter();
+                    ad.getDoubanFragment().showPickDialog();
                 }
             }
         });
@@ -198,7 +197,12 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
                     presenter.startReading(position);
                 }
             });
+            recyclerView.setAdapter(adapter);
+        } else {
+            adapter.notifyDataSetChanged();
         }
+
+
 
     }
 

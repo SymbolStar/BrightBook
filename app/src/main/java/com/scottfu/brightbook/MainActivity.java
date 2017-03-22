@@ -164,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.show(mainFragment);
         fragmentTransaction.commit();
-
         toolbar.setTitle(getResources().getString(R.string.app_name));
 
     }

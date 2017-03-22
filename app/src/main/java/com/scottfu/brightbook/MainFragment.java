@@ -129,6 +129,10 @@ public class MainFragment extends Fragment {
 
     }
 
+
+
+
+    //右上角菜单功能键
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
