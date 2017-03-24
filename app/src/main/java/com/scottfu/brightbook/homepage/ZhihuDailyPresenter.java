@@ -2,17 +2,21 @@ package com.scottfu.brightbook.homepage;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.android.volley.Cache;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.scottfu.brightbook.NewsDetail.NewsDetailActivity;
 import com.scottfu.brightbook.api.BrightBookAPI;
 import com.scottfu.brightbook.bean.ZhihuDailyNews;
 import com.scottfu.brightbook.db.DatabaseHelper;
+import com.scottfu.brightbook.service.CacheService;
 import com.scottfu.sflibrary.net.CloudClient;
 import com.scottfu.sflibrary.net.JSONResultHandler;
 import com.scottfu.sflibrary.util.DateFormatter;
@@ -93,6 +97,11 @@ public class ZhihuDailyPresenter implements ZhihuDailyContract.Presenter {
                             }
 
 //                        TODO Local_broadcast
+                            Intent intent = new Intent("com.marktony.zhihudaily.LOCAL_BROADCAST");
+                            intent.putExtra("type", CacheService.TYPE_ZHIHU);
+                            intent.putExtra("id", item.getId());
+                            LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
+
 
                         }
                         mView.showResults(mZhihuStoryList);
@@ -146,6 +155,25 @@ public class ZhihuDailyPresenter implements ZhihuDailyContract.Presenter {
     public void startReading(int Position) {
 
 //        TODO 跳到阅读页
+
+//        DoubanNews.posts item = list.get(position);
+//        Intent intent = new Intent(context, DetailActivity.class);
+//
+//        intent.putExtra("type", BeanType.TYPE_DOUBAN);
+//        intent.putExtra("id", item.getId());
+//        intent.putExtra("title", item.getTitle());
+//        if (item.getThumbs().size() == 0){
+//            intent.putExtra("coverUrl", "");
+//        } else {
+//            intent.putExtra("coverUrl", item.getThumbs().get(0).getMedium().getUrl());
+//        }
+//        context.startActivity(intent);
+
+        Intent intent = new Intent(mContext, NewsDetailActivity.class);
+        mContext.startActivity(intent);
+
+
+
     }
 
     @Override

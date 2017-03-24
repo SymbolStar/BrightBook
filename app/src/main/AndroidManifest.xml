@@ -24,6 +24,11 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".NewsDetail.NewsDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/title_activity_read"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"/>
+
         <service android:name=".service.CacheService"/>
 
     </application>
