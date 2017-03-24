@@ -1,11 +1,13 @@
 package com.scottfu.brightbook.NewsDetail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 
 import com.scottfu.brightbook.R;
+import com.scottfu.brightbook.bean.BeanType;
 
 /**
  * Created by fujindong on 2017/3/23.
@@ -30,6 +32,13 @@ public class NewsDetailActivity extends AppCompatActivity{
         }
 
         NewsDetailPresenter presenter = new NewsDetailPresenter(NewsDetailActivity.this,mFragment);
+
+        Intent intent = getIntent();
+
+        presenter.setmType((BeanType) intent.getSerializableExtra("type"));
+        presenter.setId(intent.getIntExtra("id", 0));
+        presenter.setTitle(intent.getStringExtra("title"));
+        presenter.setCoverUrl(intent.getStringExtra("coverUrl"));
 
 
 //       TODO 获取Intent 传过来的值

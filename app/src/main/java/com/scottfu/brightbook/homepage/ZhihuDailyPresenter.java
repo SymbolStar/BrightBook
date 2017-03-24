@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.scottfu.brightbook.NewsDetail.NewsDetailActivity;
 import com.scottfu.brightbook.api.BrightBookAPI;
+import com.scottfu.brightbook.bean.BeanType;
 import com.scottfu.brightbook.bean.ZhihuDailyNews;
 import com.scottfu.brightbook.db.DatabaseHelper;
 import com.scottfu.brightbook.service.CacheService;
@@ -170,6 +171,10 @@ public class ZhihuDailyPresenter implements ZhihuDailyContract.Presenter {
 //        context.startActivity(intent);
 
         Intent intent = new Intent(mContext, NewsDetailActivity.class);
+        intent.putExtra("type", BeanType.TYPE_ZHIHU);
+        intent.putExtra("id", mZhihuStoryList.get(Position).getId());
+        intent.putExtra("title", mZhihuStoryList.get(Position).getTitle());
+        intent.putExtra("coverUrl", mZhihuStoryList.get(Position).getImages().get(0));
         mContext.startActivity(intent);
 
 

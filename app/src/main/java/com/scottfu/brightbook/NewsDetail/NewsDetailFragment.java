@@ -95,6 +95,14 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.toolbar_layout);
 
 
+        //  回退
+        mDetailToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               getActivity().finish();
+            }
+        });
+
         mDetailToolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,7 +174,13 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
 
     @Override
     public void showCover(String url) {
-
+        Glide.with(mContext)
+                .load(url)
+                .asBitmap()
+                .placeholder(R.drawable.placeholder)
+                .centerCrop()
+                .error(R.drawable.placeholder)
+                .into(mToolbarImageView);
     }
 
     @Override
