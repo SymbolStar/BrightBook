@@ -11,10 +11,34 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+
+
+
+//自动签名打包
+//    signingConfigs {
+//        release {
+//            storeFile file("Shopping.keystore")
+//            keyAlias "逛大街"
+//            keyPassword "123456"
+//            storePassword "123456"
+//        }
+//    }
+
+
+
     buildTypes {
         release {
-            minifyEnabled false
+            // 混淆
+            minifyEnabled true
+            // Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+            // 前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
+
         }
     }
 }
