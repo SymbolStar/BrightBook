@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.google.common.collect.HashBiMap;
 import com.scottfu.brightbook.service.CacheService;
+import com.scottfu.brightbook.service.GrayService;
 import com.scottfu.sflibrary.net.CloudClient;
 import com.scottfu.sflibrary.net.JSONResultHandler;
 import com.scottfu.sflibrary.util.StringUtil;
@@ -48,14 +49,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent grayIntent = new Intent(getApplicationContext(), GrayService.class);
+        startService(grayIntent);
+
 
         initViews();
         if (savedInstanceState != null) {
             mainFragment = (MainFragment) getSupportFragmentManager().getFragment(savedInstanceState, "MainFragment");
-//            bookmarksFragment = (BookmarksFragment) getSupportFragmentManager().getFragment(savedInstanceState, "BookmarksFragment");
         } else {
             mainFragment = MainFragment.newInstance();
-//            bookmarksFragment = BookmarksFragment.newInstance();
         }
 
         if (!mainFragment.isAdded()) {
@@ -64,23 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .commit();
         }
 
-//        if (!bookmarksFragment.isAdded()) {
-//            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.layout_fragment, bookmarksFragment, "BookmarksFragment")
-//                    .commit();
-//        }
 
-//        new BookmarksPresenter(MainActivity.this, bookmarksFragment);
-
-//        String action = getIntent().getAction();
-
-//        if (action.equals(ACTION_BOOKMARKS)) {
-//            showBookmarksFragment();
-//            navigationView.setCheckedItem(R.id.nav_bookmarks);
-//        } else {
-//            showMainFragment();
-//            navigationView.setCheckedItem(R.id.nav_home);
-//        }
 
         startService(new Intent(this, CacheService.class));
 

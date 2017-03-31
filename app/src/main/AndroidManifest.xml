@@ -8,6 +8,7 @@
 
 
     <application
+        android:name=".BrightBookApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -30,6 +31,34 @@
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"/>
 
         <service android:name=".service.CacheService"/>
+
+        <receiver android:name=".service.WakeReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.wake.grey"/>
+            </intent-filter>
+
+        </receiver>
+
+        <service android:name=".service.BackgroundService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":bg"/>
+        <service android:name=".service.GrayService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":gary"/>
+        <service android:name=".service.GrayService$GrayInnerService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":gray"/>
+        <service android:name=".service.WakeReceiver$WakeGrayInnerService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service android:name=".service.WakeReceiver$WakeNotifyService"
+            android:enabled="true"
+            android:exported="false"/>
 
     </application>
 
