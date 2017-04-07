@@ -17,12 +17,16 @@ import com.google.gson.JsonSyntaxException;
 import com.scottfu.brightbook.R;
 import com.scottfu.brightbook.api.BrightBookAPI;
 import com.scottfu.brightbook.bean.BeanType;
+import com.scottfu.brightbook.bean.DoubanNews;
+import com.scottfu.brightbook.bean.DoubanStory;
 import com.scottfu.brightbook.bean.StringModelImpl;
 import com.scottfu.brightbook.bean.ZhihuDailyStory;
 import com.scottfu.brightbook.db.DatabaseHelper;
 import com.scottfu.brightbook.interfacebk.OnStringListener;
 import com.scottfu.sflibrary.util.LogUtil;
 import com.scottfu.sflibrary.util.NetworkState;
+
+import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -39,6 +43,7 @@ public class NewsDetailPresenter implements NewsDetailContract.Presenter {
     private StringModelImpl model;
 
     private ZhihuDailyStory zhihuDailyStory;
+    private DoubanStory mDoubanStory;
     private Gson gson;
 
     private SharedPreferences sp;
@@ -211,39 +216,39 @@ public class NewsDetailPresenter implements NewsDetailContract.Presenter {
 //                }
 //                break;
 
-//            case TYPE_DOUBAN:
-//                if (NetworkState.networkConnected(context)) {
-//                    model.load(Api.DOUBAN_ARTICLE_DETAIL + id, new OnStringListener() {
-//                        @Override
-//                        public void onSuccess(String result) {
-//                            try {
-//                                doubanMomentStory = gson.fromJson(result, DoubanMomentStory.class);
-//                                view.showResult(convertDoubanContent());
-//                            } catch (JsonSyntaxException e) {
-//                                view.showLoadingError();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onError(VolleyError error) {
-//                            view.showLoadingError();
-//                        }
-//                    });
-//                } else {
-//                    Cursor cursor = dbHelper.getReadableDatabase()
-//                            .rawQuery("select douban_content from Douban where douban_id = " + id, null);
-//                    if (cursor.moveToFirst()) {
-//                        do {
-//                            if (cursor.getCount() == 1) {
-//                                doubanMomentStory = gson.fromJson(cursor.getString(0), DoubanMomentStory.class);
-//                                view.showResult(convertDoubanContent());
-//                            }
-//                        } while (cursor.moveToNext());
-//                    }
-//                    cursor.close();
-//                    break;
-//
-//                }
+            case TYPE_DOUBAN:
+                if (NetworkState.networkConnected(mContext)) {
+                    model.load(BrightBookAPI.DOUBAN_ARTICLE_DETAIL + id, new OnStringListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            try {
+                                mDoubanStory = gson.fromJson(result, DoubanStory.class);
+                                mView.showResult(convertDoubanContent());
+                            } catch (JsonSyntaxException e) {
+                                mView.showLoadingError();
+                            }
+                        }
+
+                        @Override
+                        public void onError(VolleyError error) {
+                            mView.showLoadingError();
+                        }
+                    });
+                } else {
+                    Cursor cursor = mdbHelper.getReadableDatabase()
+                            .rawQuery("select douban_content from Douban where douban_id = " + id, null);
+                    if (cursor.moveToFirst()) {
+                        do {
+                            if (cursor.getCount() == 1) {
+                                mDoubanStory = gson.fromJson(cursor.getString(0), DoubanStory.class);
+                                mView.showResult(convertDoubanContent());
+                            }
+                        } while (cursor.moveToNext());
+                    }
+                    cursor.close();
+                    break;
+
+                }
             default:
                 mView.stopLoading();
                 mView.showLoadingError();
@@ -288,5 +293,41 @@ public class NewsDetailPresenter implements NewsDetailContract.Presenter {
                 .append(preResult)
                 .append("</body></html>").toString();
     }
+
+
+    private String convertDoubanContent() {
+
+        if (mDoubanStory.getContent() == null) {
+            return null;
+        }
+        String css;
+        if ((mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
+                == Configuration.UI_MODE_NIGHT_YES) {
+            css = "<link rel=\"stylesheet\" href=\"file:///android_asset/douban_dark.css\" type=\"text/css\">";
+        } else {
+            css = "<link rel=\"stylesheet\" href=\"file:///android_asset/douban_light.css\" type=\"text/css\">";
+        }
+        String content = mDoubanStory.getContent();
+        ArrayList<DoubanNews.posts.thumbs> imageList = mDoubanStory.getPhotos();
+        for (int i = 0; i < imageList.size(); i++) {
+            String old = "<img id=\"" + imageList.get(i).getTag_name() + "\" />";
+            String newStr = "<img id=\"" + imageList.get(i).getTag_name() + "\" "
+                    + "src=\"" + imageList.get(i).getMedium().getUrl() + "\"/>";
+            content = content.replace(old, newStr);
+        }
+        StringBuilder builder = new StringBuilder();
+        builder.append( "<!DOCTYPE html>\n");
+        builder.append("<html lang=\"ZH-CN\" xmlns=\"http://www.w3.org/1999/xhtml\">\n");
+        builder.append("<head>\n<meta charset=\"utf-8\" />\n");
+        builder.append(css);
+        builder.append("\n</head>\n<body>\n");
+        builder.append("<div class=\"container bs-docs-container\">\n");
+        builder.append("<div class=\"post-container\">\n");
+        builder.append(content);
+        builder.append("</div>\n</div>\n</body>\n</html>");
+
+        return builder.toString();
+    }
+
 
 }

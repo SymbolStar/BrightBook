@@ -11,7 +11,9 @@ import android.util.Log;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.scottfu.brightbook.NewsDetail.NewsDetailActivity;
 import com.scottfu.brightbook.api.BrightBookAPI;
+import com.scottfu.brightbook.bean.BeanType;
 import com.scottfu.brightbook.bean.DoubanNews;
 import com.scottfu.brightbook.bean.StringModelImpl;
 import com.scottfu.brightbook.db.DatabaseHelper;
@@ -67,6 +69,21 @@ public class DoubanPresenter implements DoubanContract.Presenter {
 //            intent.putExtra("coverUrl", item.getThumbs().get(0).getMedium().getUrl());
 //        }
 //        context.startActivity(intent);
+
+
+
+        Intent intent = new Intent(context, NewsDetailActivity.class);
+        intent.putExtra("type", BeanType.TYPE_DOUBAN);
+        intent.putExtra("id", list.get(position).getId());
+        intent.putExtra("title", list.get(position).getTitle());
+        if (list.get(position).getThumbs().size() == 0){
+            intent.putExtra("coverUrl", "");
+        } else {
+            intent.putExtra("coverUrl", list.get(position).getThumbs().get(0).getMedium().getUrl());
+        }
+        context.startActivity(intent);
+
+
     }
 
     @Override
