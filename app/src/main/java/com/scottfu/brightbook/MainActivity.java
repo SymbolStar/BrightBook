@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private Toolbar toolbar;
+
+
+    private long exitTime = 0;
 
     public static final String ACTION_BOOKMARKS = "com.marktony.zhihudaily.bookmarks";
 
@@ -204,4 +208,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            ToastManager.showToast(this,"back");
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            exit();
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
+    //判断两次返回键的间隔时间来确定是否退出程序
+    /** * 程序退出提醒 */
+    public void exit() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            exitTime = System.currentTimeMillis();
+            ToastManager.showToast(this, "再按一次退出程序");
+        } else {
+            finish();
+        }
+    }
 }

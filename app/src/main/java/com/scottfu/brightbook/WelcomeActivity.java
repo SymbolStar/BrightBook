@@ -19,7 +19,7 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+//        setContentView(R.layout.activity_welcome);
 
 
         new Handler().postDelayed(new Runnable() {
