@@ -15,21 +15,32 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".WelcomeActivity"
-            android:theme="@style/splash"
-            android:launchMode="singleTask">
+        <!--<activity android:name=".WelcomeActivity"-->
+            <!--android:theme="@style/splash"-->
+            <!--android:launchMode="singleTask">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+
+
+        <activity android:name=".MainActivity"
+        android:label="@string/app_name"
+        android:theme="@style/splash"
+        android:configChanges="orientation|keyboardHidden|screenSize|screenLayout">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout">
+        <!--<activity android:name=".MainActivity"-->
+            <!--android:label="@string/app_name"-->
+            <!--android:theme="@style/AppTheme.NoActionBar"-->
+            <!--android:configChanges="orientation|keyboardHidden|screenSize|screenLayout">-->
 
-        </activity>
+        <!--</activity>-->
 
         <activity android:name=".NewsDetail.NewsDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"
